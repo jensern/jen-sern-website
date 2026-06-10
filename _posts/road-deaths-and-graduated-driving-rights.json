@@ -1,0 +1,28 @@
+{
+  "stream": "social-architect",
+  "scale": "The System",
+  "tag": "The System",
+  "title": "Road deaths and the case for graduated driving rights",
+  "date": "2026-06-10",
+  "excerpt": "A licence proves you passed a test once. It says nothing about what you do at 2am on an empty road.",
+  "slug": "road-deaths-and-graduated-driving-rights",
+  "sections": [
+    { "type": "paragraph", "text": "I have family members who died on the road. Motorcyclists. Not because they drove recklessly — because someone else did, and the road offered them no protection from that fact." },
+    { "type": "paragraph", "text": "This is the part of road safety that troubles me most: the people who bear the consequences are rarely the people who caused them. A 19-year-old racing a car on a Malaysian highway killed a family of four who were simply travelling. The licence that permitted the 19-year-old onto that road said nothing about what they would do when no one was watching." },
+    { "type": "heading", "heading": "What a licence actually proves" },
+    { "type": "paragraph", "text": "A driving licence is a record of a single event: you passed a test on a specific day under supervised conditions. It grants unconditional access to the road from that point forward, regardless of what you do next." },
+    { "type": "paragraph", "text": "This is a strange design when you examine it. We wouldn't grant unconditional access to a commercial aircraft based on one supervised flight. We wouldn't certify a surgeon based on one observed procedure and then leave them alone forever. In most domains involving serious risk to others, we build in graduated permission, ongoing assessment, and the ability to revoke." },
+    { "type": "paragraph", "text": "On the road, we grant a licence at 18 and essentially never revisit it." },
+    { "type": "heading", "heading": "A graduated system" },
+    { "type": "paragraph", "text": "The infrastructure already exists for something better. Singapore has ERP systems that track vehicles by location. Modern cars increasingly carry telematics. The gap between what's technically possible and what's been implemented is not a technology gap — it's a change management gap." },
+    { "type": "paragraph", "text": "What I'm imagining is relatively simple in principle: driving rights that are graduated by earned merit rather than binary. A new driver operates under speed restrictions tied to their licence class — not enforced by the honour system, but by the infrastructure itself. As their record accumulates, restrictions ease. The car belonging to a driver with an unblemished ten-year record behaves differently on the road than the car belonging to someone six months into their licence." },
+    { "type": "paragraph", "text": "Beyond the individual, the same infrastructure creates something else: a live map of risk. Accident-prone stretches of road can trigger automatic speed throttling in real time. The system responds to the road, not just the driver." },
+    { "type": "heading", "heading": "The funding question" },
+    { "type": "paragraph", "text": "Every conversation about infrastructure reform arrives at the same wall: who pays for it? And here the standard calculus fails us. A family of four lost on a highway doesn't appear as a quantifiable cost in most government accounting. The loss is real, the grief is real, the damage to the community is real — but it doesn't translate cleanly into a figure that justifies a budget line." },
+    { "type": "paragraph", "text": "So let me suggest a different frame. If every licensed driver in Singapore contributed ten cents a month to a road safety fund, the pool would be substantial. Not enough to build everything at once — but enough to fund a study, pilot a programme, demonstrate results. Once people see what safer roads actually feel like, the argument for scaling becomes easier to make." },
+    { "type": "blockquote", "quote": "On the road, anybody could become a victim. I believe everybody wants a safer road experience." },
+    { "type": "paragraph", "text": "The question is whether we've ever asked them clearly enough." }
+  ],
+  "formspreeEndpoint": "https://formspree.io/f/xaqzboae",
+  "publishedAt": "2026-06-10T00:00:00.000Z"
+}
