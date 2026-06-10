@@ -7,6 +7,55 @@
   <meta name="description" content="Engineer, builder, and observer of the systems that shape how we live. Working in solar energy in Singapore.">
   <link rel="canonical" href="https://jen-sern.com/about.html">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .about-top {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+      padding: 3rem 0 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .about-portrait {
+      width: 150px;
+      height: 185px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 4px;
+      opacity: 0.92;
+      display: block;
+    }
+    .about-intro-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-ghost);
+      margin-bottom: 0.6rem;
+    }
+    .about-intro-name {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    .about-intro-body {
+      font-size: 14px;
+      line-height: 1.82;
+      color: var(--text-body);
+    }
+    @media (max-width: 540px) {
+      .about-top {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .about-portrait {
+        width: 120px;
+        height: 148px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -24,18 +73,26 @@
 
   <main>
 
-    <section class="hero">
-      <div class="container">
-        <div class="hero-quote">"The conventional way of solving problems is to see the problem as something external. Another approach is interrelationship-integration — problems viewed as broken, dysfunctional interrelationships."</div>
-        <div class="hero-body">
-          I'm Jen Sern. Engineer by training. Builder by disposition. I left a stable career in semiconductor engineering to spend years understanding how businesses create real impact — not just revenue. Now I work in solar, helping homes and commercial properties across Singapore make the switch with <em>FOMO Energy</em>.
+    <div class="container">
+      <div class="about-top">
+        <img
+          src="js_portrait_web.jpg"
+          alt="Jen Sern"
+          class="about-portrait"
+        />
+        <div>
+          <div class="about-intro-label">About</div>
+          <div class="about-intro-name">Jen Sern Lew</div>
+          <div class="about-intro-body">
+            Engineer by training. Builder by disposition. I left a stable career in semiconductor engineering to spend years understanding how businesses create real impact — not just revenue. Now I work in solar, helping homes and commercial properties across Singapore make the switch with <em>FOMO Energy</em>.
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <section class="section">
       <div class="container">
-        <div class="about-strip" style="border-bottom: none; padding-bottom: 0;">
+        <div class="about-grid">
 
           <div class="about-block">
             <div class="about-label">Background</div>
@@ -72,12 +129,12 @@
     <section class="section" id="connect">
       <div class="container">
         <div class="section-label">Connect</div>
-        <div class="section-desc" style="margin-bottom: 1rem;">
+        <div class="section-desc">
           If something here resonates — a solar project, an idea worth discussing, or just a question — I'm reachable. No form, no funnel. Just a conversation.
         </div>
-        <div style="font-size: 13px; color: rgba(232,226,212,0.45); line-height: 2;">
-          <div>LinkedIn — <a href="https://sg.linkedin.com/in/jensernlew" target="_blank" rel="noopener" style="color: rgba(184,134,42,0.7); border-bottom: 0.5px solid rgba(184,134,42,0.25);">Jen Sern Lew</a></div>
-          <div>FOMO Energy — <a href="https://fomo.energy" target="_blank" rel="noopener" style="color: rgba(184,134,42,0.7); border-bottom: 0.5px solid rgba(184,134,42,0.25);">fomo.energy</a></div>
+        <div style="font-size: 13.5px; color: var(--text-muted); line-height: 2.2;">
+          <div>LinkedIn — <a href="https://sg.linkedin.com/in/jensernlew" target="_blank" rel="noopener" style="color: var(--amber-muted); border-bottom: 0.5px solid var(--amber-faint);">Jen Sern Lew</a></div>
+          <div>FOMO Energy — <a href="https://fomo.energy" target="_blank" rel="noopener" style="color: var(--amber-muted); border-bottom: 0.5px solid var(--amber-faint);">fomo.energy</a></div>
         </div>
       </div>
     </section>
