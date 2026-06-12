@@ -8,27 +8,41 @@
   <link rel="canonical" href="https://jen-sern.com/about.html">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .portrait-frame {
-      padding: 2.5rem 0;
-      border-bottom: 0.5px solid var(--border);
-      display: flex;
-      justify-content: center;
+    .about-hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 3rem;
+      align-items: start;
     }
-    .portrait-frame img {
-      width: 320px;
-      max-width: 100%;
+    .about-hero-text { min-width: 0; }
+    .about-hero-portrait {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding-top: 0.5rem;
+    }
+    .about-hero-portrait img {
+      width: 200px;
+      height: auto;
+      max-height: 360px;
       border-radius: 3px;
       display: block;
-      box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+      box-shadow: 0 4px 28px rgba(0,0,0,0.08);
+      object-fit: cover;
+      object-position: center top;
     }
     @media (max-width: 640px) {
-      .portrait-frame {
-        padding: 2rem 2rem;
+      .about-hero-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
-      .portrait-frame img {
-        width: 100%;
-        max-width: 300px;
-        margin: 0 auto;
+      .about-hero-portrait {
+        justify-content: center;
+        padding-top: 0;
+      }
+      .about-hero-portrait img {
+        width: 160px;
+        max-height: 220px;
       }
     }
   </style>
