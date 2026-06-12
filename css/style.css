@@ -368,3 +368,85 @@ footer .container {
   .post-body { padding: 2rem 1.25rem 2.5rem; font-size: 15px; }
   .post-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
 }
+
+/* ── REACTION WIDGET ── */
+.post-response {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 0.5px solid var(--border);
+}
+.post-response-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber-muted);
+  margin-bottom: 0.85rem;
+}
+.post-response-btns {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.pr-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 12px;
+  padding: 0.45rem 1rem;
+  border-radius: 2px;
+  border: 0.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all 0.15s;
+  line-height: 1;
+}
+.pr-btn:hover { border-color: var(--amber-muted); color: var(--amber); }
+.pr-btn.active { border-color: var(--amber-muted); color: var(--amber); background: rgba(154,110,26,0.06); }
+.pr-count {
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 14px;
+  text-align: center;
+  opacity: 0.8;
+}
+.pr-send-btn {
+  font-size: 12px;
+  padding: 0.5rem 1.25rem;
+  background: var(--amber-muted);
+  border: none;
+  color: var(--bg);
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 600;
+}
+.pr-send-btn:hover { opacity: 0.85; }
+.post-support-form {
+  margin-top: 0.85rem;
+  padding: 1rem;
+  background: var(--bg-subtle);
+  border-radius: 4px;
+  border: 0.5px solid var(--border);
+}
+.post-support-form input,
+.post-support-form textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 0.5px solid var(--border);
+  color: var(--text);
+  font-size: 13.5px;
+  font-family: var(--sans);
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  margin-bottom: 0.6rem;
+  outline: none;
+  display: block;
+}
+.post-support-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
