@@ -68,6 +68,96 @@
       </div>
     </div>
 
+    <div class="post-body" style="padding-top:0;padding-bottom:0;">
+      <div class="container">
+        
+    <div class="post-response">
+      <div class="post-response-label">What do you think?</div>
+      <div class="post-response-btns">
+        <button class="pr-btn" id="btn-agree" onclick="handleResponse('agree')">
+          I agree <span class="pr-count" id="count-agree">–</span>
+        </button>
+        <button class="pr-btn" id="btn-disagree" onclick="handleResponse('disagree')">
+          I disagree <span class="pr-count" id="count-disagree">–</span>
+        </button>
+        <button class="pr-btn" id="btn-support" onclick="handleResponse('support')">
+          I support this →
+        </button>
+      </div>
+      <div class="post-support-form" id="supportForm" style="display:none;">
+        <form action="https://formspree.io/f/xaqzboae" method="POST">
+          <input type="hidden" name="post" value="why-rushing-through-customs-costs-more-than-time">
+          <input type="hidden" name="response" value="I support this">
+          <input type="text" name="name" placeholder="Your name">
+          <input type="email" name="email" placeholder="Your email *" required>
+          <input type="text" name="phone" placeholder="Phone (optional)">
+          <textarea name="message" placeholder="Your message..."></textarea>
+          <button type="submit" class="pr-send-btn">Send →</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+    (function() {
+      const slug = 'why-rushing-through-customs-costs-more-than-time';
+      const NS = 'jensern-reactions';
+
+      // Load counts on page load
+      function loadCounts() {
+        ['agree','disagree'].forEach(function(type) {
+          fetch('https://api.countapi.xyz/get/' + NS + '/' + slug + '-' + type)
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+              const el = document.getElementById('count-' + type);
+              if (el) el.textContent = d.value !== null ? d.value : 0;
+            })
+            .catch(function() {
+              const el = document.getElementById('count-' + type);
+              if (el) el.textContent = '0';
+            });
+        });
+      }
+
+      // Handle reaction click
+      window.handleResponse = function(type) {
+        document.querySelectorAll('.pr-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.getElementById('btn-' + type).classList.add('active');
+        document.getElementById('supportForm').style.display = type === 'support' ? 'block' : 'none';
+
+        if (type === 'agree' || type === 'disagree') {
+          // Check if already voted this session
+          const voteKey = 'vote-' + slug;
+          const prevVote = sessionStorage.getItem(voteKey);
+
+          if (prevVote === type) return; // already voted this type
+
+          // Decrement previous vote if switching
+          if (prevVote && prevVote !== type) {
+            fetch('https://api.countapi.xyz/update/' + NS + '/' + slug + '-' + prevVote + '?amount=-1')
+              .then(function(r) { return r.json(); })
+              .then(function(d) {
+                const el = document.getElementById('count-' + prevVote);
+                if (el) el.textContent = Math.max(0, d.value);
+              });
+          }
+
+          // Increment new vote
+          fetch('https://api.countapi.xyz/hit/' + NS + '/' + slug + '-' + type)
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+              const el = document.getElementById('count-' + type);
+              if (el) el.textContent = d.value;
+              sessionStorage.setItem(voteKey, type);
+            });
+        }
+      };
+
+      loadCounts();
+    })();
+    </script>
+      </div>
+    </div>
+
     <div class="post-footer">
       <div class="container">
         <a href="../social-architect/">← All observations</a>
