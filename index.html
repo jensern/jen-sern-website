@@ -30,12 +30,167 @@
 
     <section class="hero">
       <div class="container">
-        <div class="hero-quote">"Worthy problems and a cup of tea go hand-in-hand."</div>
-        <div class="hero-body">
-          Engineer and builder, currently helping homes and businesses go solar across Singapore with the team at <a href="https://fomo.energy" target="_blank" rel="noopener">FOMO Energy</a>. Before that — semiconductor research, patents, seven years building business frameworks. I write occasionally about what I notice along the way.
+        <div class="hero-layout">
+          <div class="hero-text">
+            <div class="hero-quote">"Worthy problems and a cup of tea go hand-in-hand."</div>
+            <div class="hero-body">
+              Engineer and builder, currently helping homes and businesses go solar across Singapore with the team at <a href="https://fomo.energy" target="_blank" rel="noopener">FOMO Energy</a>. Before that — semiconductor research, patents, seven years building business frameworks. I write occasionally about what I notice along the way.
+            </div>
+          </div>
+          <div class="hero-cube">
+            <canvas id="impactCube" width="220" height="220"></canvas>
+          </div>
         </div>
       </div>
     </section>
+
+    <style>
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .hero-text { min-width: 0; }
+    .hero-cube {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-cube canvas {
+      display: block;
+      opacity: 0.92;
+    }
+    @media (max-width: 640px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .hero-cube {
+        justify-content: center;
+      }
+      .hero-cube canvas {
+        width: 160px !important;
+        height: 160px !important;
+      }
+    }
+    </style>
+
+    <script>
+    (function(){
+    var V={
+      dot:function(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];},
+      cross:function(a,b){return[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];},
+      norm:function(v){var l=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);return l?[v[0]/l,v[1]/l,v[2]/l]:[0,1,0];}
+    };
+    function rot(v,ax,a){
+      var c=Math.cos(a),s=Math.sin(a),d=V.dot(v,ax),cr=V.cross(ax,v);
+      return[v[0]*c+cr[0]*s+ax[0]*d*(1-c),v[1]*c+cr[1]*s+ax[1]*d*(1-c),v[2]*c+cr[2]*s+ax[2]*d*(1-c)];
+    }
+    var camDir=V.norm([1,0.63,1]);
+    var camRight=V.norm(V.cross([0,1,0],camDir));
+    var camUp=V.cross(camDir,camRight);
+    function proj(pt,S,cx,cy){return[cx+V.dot(pt,camRight)*S,cy-V.dot(pt,camUp)*S];}
+    var BASE=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
+    var FACES=[
+      {v:[0,1,2,3],n:[0,0,-1]},{v:[5,4,7,6],n:[0,0,1]},
+      {v:[4,0,3,7],n:[-1,0,0]},{v:[1,5,6,2],n:[1,0,0]},
+      {v:[4,5,1,0],n:[0,-1,0]},{v:[3,2,6,7],n:[0,1,0]},
+    ];
+    var COLORS=['#5535CC','#2E1890','#3A22A8','#4830C0','#221478','#6045D8'];
+    var canvas=document.getElementById('impactCube');
+    if(!canvas)return;
+    var ctx=canvas.getContext('2d');
+    var CX=110,CY=112,S=62;
+    var axis=[0,1,0];
+    var corners=BASE.map(function(v){return v.slice();});
+    var faceNorms=FACES.map(function(f){return f.n.slice();});
+    var STREAKS=[
+      {y:0.20,amp:0.22,freq:1.8,ph:0.0,spd:0.50,w:1.4,a:0.92},
+      {y:-0.10,amp:0.22,freq:1.8,ph:Math.PI*0.7,spd:0.50,w:1.2,a:0.82},
+      {y:-0.34,amp:0.18,freq:1.9,ph:Math.PI*1.4,spd:0.52,w:1.0,a:0.68},
+    ];
+    var N=55,time=0;
+    function drawStreak(s){
+      var pts=[];
+      for(var i=0;i<=N;i++){
+        var t=i/N,x=-0.85+t*1.70;
+        var z=s.amp*Math.sin(t*Math.PI*s.freq+s.ph+time*s.spd);
+        var y=s.y+0.022*Math.sin(t*Math.PI*2.2+time*0.38);
+        pts.push(proj([x,y,z],S,CX,CY));
+      }
+      ctx.lineCap='round';ctx.lineJoin='round';
+      for(var i=0;i<pts.length-1;i++){
+        var t=i/(pts.length-1),tp=Math.sin(t*Math.PI);
+        ctx.beginPath();ctx.moveTo(pts[i][0],pts[i][1]);ctx.lineTo(pts[i+1][0],pts[i+1][1]);
+        ctx.strokeStyle='rgba(200,140,20,'+(s.a*0.13*tp)+')';
+        ctx.lineWidth=s.w*3.2*tp;ctx.stroke();
+      }
+      for(var i=0;i<pts.length-1;i++){
+        var t=i/(pts.length-1),tp=Math.sin(t*Math.PI),m=0.3+0.7*tp;
+        ctx.beginPath();ctx.moveTo(pts[i][0],pts[i][1]);ctx.lineTo(pts[i+1][0],pts[i+1][1]);
+        ctx.strokeStyle='rgba('+(Math.round(190+m*55))+','+(Math.round(130+m*70))+',20,'+(s.a*0.88*tp)+')';
+        ctx.lineWidth=s.w*tp;ctx.stroke();
+      }
+      ctx.globalCompositeOperation='lighter';
+      for(var i=0;i<pts.length-1;i++){
+        var t=i/(pts.length-1),tp=Math.sin(t*Math.PI);
+        if(tp<0.15)continue;
+        ctx.beginPath();ctx.moveTo(pts[i][0],pts[i][1]);ctx.lineTo(pts[i+1][0],pts[i+1][1]);
+        ctx.strokeStyle='rgba(255,228,95,'+(s.a*0.30*tp)+')';
+        ctx.lineWidth=s.w*0.28*tp;ctx.stroke();
+      }
+      ctx.globalCompositeOperation='source-over';
+    }
+    function convexHull(pts){
+      var n=pts.length;if(n<3)return pts;
+      var start=0;
+      for(var i=1;i<n;i++)if(pts[i][0]<pts[start][0])start=i;
+      var hull=[],cur=start,count=0;
+      do{
+        hull.push(pts[cur]);var nxt=(cur+1)%n;
+        for(var i=0;i<n;i++){
+          var cross=(pts[nxt][0]-pts[cur][0])*(pts[i][1]-pts[cur][1])-(pts[nxt][1]-pts[cur][1])*(pts[i][0]-pts[cur][0]);
+          if(cross<0)nxt=i;
+        }
+        cur=nxt;count++;
+      }while(cur!==start&&count<=n);
+      return hull;
+    }
+    function frame(){
+      requestAnimationFrame(frame);
+      ctx.clearRect(0,0,220,220);
+      time+=0.010;
+      corners=corners.map(function(v){return rot(v,axis,0.007);});
+      faceNorms=faceNorms.map(function(n){return rot(n,axis,0.007);});
+      var pc=corners.map(function(v){return proj(v,S,CX,CY);});
+      var fd=FACES.map(function(f,fi){
+        var depth=f.v.reduce(function(s,i){return s+corners[i][2];},0)/4;
+        var visible=V.dot(faceNorms[fi],camDir)<0;
+        return{fi:fi,v:f.v,depth:depth,visible:visible};
+      });
+      fd.sort(function(a,b){return b.depth-a.depth;});
+      fd.forEach(function(d){
+        if(!d.visible)return;
+        ctx.beginPath();
+        var p=pc[d.v[0]];ctx.moveTo(p[0],p[1]);
+        for(var k=1;k<4;k++){var q=pc[d.v[k]];ctx.lineTo(q[0],q[1]);}
+        ctx.closePath();
+        ctx.fillStyle=COLORS[d.fi];ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=0.6;ctx.stroke();
+      });
+      var hull=convexHull(pc);
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(hull[0][0],hull[0][1]);
+      for(var i=1;i<hull.length;i++)ctx.lineTo(hull[i][0],hull[i][1]);
+      ctx.closePath();ctx.clip();
+      STREAKS.forEach(function(s){drawStreak(s);});
+      ctx.restore();
+    }
+    frame();
+    })();
+    </script>
 
     <section class="section">
       <div class="container">
