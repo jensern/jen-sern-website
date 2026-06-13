@@ -7,6 +7,46 @@
   <meta name="description" content="Observations on the systems we move through every day — and what they quietly do to us. Notes on cities, infrastructure, and human flourishing.">
   <link rel="canonical" href="https://jen-sern.com/social-architect/">
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .sa-hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      width: 100%;
+    }
+    .sa-hero-text { min-width: 0; }
+    .sa-hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sa-hand-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      overflow: hidden;
+      display: block;
+    }
+    .sa-hand-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    .sa-hand-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      pointer-events: none;
+    }
+    @media (max-width: 640px) {
+      .sa-hero-layout { grid-template-columns: 1fr; }
+      .sa-hero-visual { margin-top: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
@@ -47,116 +87,9 @@
       </div>
     </div>
 
-    <style>
-    .sa-hero-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-    }
-    .sa-hero-text { min-width: 0; }
-    .sa-hero-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .sa-hand-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .sa-hand-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-    }
-    .sa-hand-canvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      border-radius: 8px;
-    }
-    @media (max-width: 640px) {
-      .sa-hero-layout { grid-template-columns: 1fr; }
-      .sa-hero-visual { margin-top: 1rem; }
-    }
-    </style>
 
-    <script>
-    (function(){
-      var canvas = document.getElementById('saHandCanvas');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
-      var RCX=300, RCY=190, RRX=148, RRY=46, TILT=-0.08;
-      var pulseAngle = 0;
 
-      function drawRing() {
-        ctx.save();
-        ctx.translate(RCX, RCY);
-        ctx.rotate(TILT);
-        for (var i=5; i>=1; i--) {
-          ctx.beginPath();
-          ctx.ellipse(0,0,RRX+i*5,RRY+i*2,0,0,Math.PI*2);
-          ctx.strokeStyle='rgba(200,140,20,'+(0.05*(6-i))+')';
-          ctx.lineWidth=8; ctx.stroke();
-        }
-        ctx.beginPath();
-        ctx.ellipse(0,0,RRX,RRY,0,0,Math.PI*2);
-        ctx.strokeStyle='rgba(215,160,25,0.75)';
-        ctx.lineWidth=2.8; ctx.stroke();
-        ctx.beginPath();
-        ctx.ellipse(0,0,RRX-1.5,RRY-0.8,0,0,Math.PI*2);
-        ctx.strokeStyle='rgba(255,220,80,0.40)';
-        ctx.lineWidth=1.2; ctx.stroke();
-        ctx.restore();
-      }
-
-      function getPulsePos(angle) {
-        var ex=RRX*Math.cos(angle), ey=RRY*Math.sin(angle);
-        var c=Math.cos(TILT), s=Math.sin(TILT);
-        return {x:RCX+ex*c-ey*s, y:RCY+ex*s+ey*c};
-      }
-
-      function drawPulse(angle) {
-        var TRAIL=36;
-        for (var i=TRAIL; i>=1; i--) {
-          var tp=getPulsePos(angle-i*0.040);
-          var frac=1-i/TRAIL;
-          ctx.beginPath();
-          ctx.arc(tp.x,tp.y,5*frac,0,Math.PI*2);
-          ctx.fillStyle='rgba(255,'+(Math.round(160+55*frac))+',30,'+(frac*0.55)+')';
-          ctx.fill();
-        }
-        var pos=getPulsePos(angle);
-        var grd=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,30);
-        grd.addColorStop(0,'rgba(255,220,80,0.80)');
-        grd.addColorStop(0.35,'rgba(230,165,30,0.40)');
-        grd.addColorStop(0.7,'rgba(200,120,20,0.15)');
-        grd.addColorStop(1,'rgba(200,100,10,0)');
-        ctx.beginPath(); ctx.arc(pos.x,pos.y,30,0,Math.PI*2);
-        ctx.fillStyle=grd; ctx.fill();
-        ctx.beginPath(); ctx.arc(pos.x,pos.y,8,0,Math.PI*2);
-        ctx.fillStyle='#FFCC30'; ctx.fill();
-        ctx.beginPath(); ctx.arc(pos.x,pos.y,3.5,0,Math.PI*2);
-        ctx.fillStyle='#FFFBE8'; ctx.fill();
-      }
-
-      function frame() {
-        requestAnimationFrame(frame);
-        ctx.clearRect(0,0,700,400);
-        pulseAngle+=0.018;
-        drawRing();
-        drawPulse(pulseAngle);
-      }
-      frame();
-    })();
-    </script>
-
-    <div class="listing-posts">
+<div class="listing-posts">
       <div class="container">
         <div class="post-list">
           <a href="why-rushing-through-customs-costs-more-than-time.html" class="post-item">
@@ -205,5 +138,95 @@
     </div>
   </footer>
 
+  <script>
+  (function(){
+    var canvas = document.getElementById('saHandCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    function setSize(){
+      var wrap = canvas.parentElement;
+      var r = wrap.getBoundingClientRect();
+      canvas.width = r.width;
+      canvas.height = r.height;
+    }
+    setSize();
+    window.addEventListener('resize', setSize);
+
+    var pulseAngle = 0;
+
+    function getRing(){
+      var r = canvas.parentElement.getBoundingClientRect();
+      var scaleX = r.width / 600;
+      var scaleY = r.height / 344;
+      return {
+        cx: 300 * scaleX,
+        cy: 190 * scaleY,
+        rx: 148 * scaleX,
+        ry: 46 * scaleY
+      };
+    }
+
+    function drawRing(ring){
+      ctx.save();
+      ctx.translate(ring.cx, ring.cy);
+      for (var i=5; i>=1; i--){
+        ctx.beginPath();
+        ctx.ellipse(0,0,ring.rx+i*4,ring.ry+i*1.5,0,0,Math.PI*2);
+        ctx.strokeStyle='rgba(200,140,20,'+(0.05*(6-i))+')';
+        ctx.lineWidth=8; ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.ellipse(0,0,ring.rx,ring.ry,0,0,Math.PI*2);
+      ctx.strokeStyle='rgba(215,160,25,0.80)';
+      ctx.lineWidth=3; ctx.stroke();
+      ctx.beginPath();
+      ctx.ellipse(0,0,ring.rx-2,ring.ry-1,0,0,Math.PI*2);
+      ctx.strokeStyle='rgba(255,220,80,0.45)';
+      ctx.lineWidth=1.2; ctx.stroke();
+      ctx.restore();
+    }
+
+    function getPulsePos(angle, ring){
+      return {
+        x: ring.cx + ring.rx * Math.cos(angle),
+        y: ring.cy + ring.ry * Math.sin(angle)
+      };
+    }
+
+    function drawPulse(angle, ring){
+      var TRAIL=36;
+      for (var i=TRAIL; i>=1; i--){
+        var tp=getPulsePos(angle-i*0.040, ring);
+        var frac=1-i/TRAIL;
+        ctx.beginPath();
+        ctx.arc(tp.x,tp.y,5*frac,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,'+(Math.round(160+55*frac))+',30,'+(frac*0.55)+')';
+        ctx.fill();
+      }
+      var pos=getPulsePos(angle, ring);
+      var grd=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,28);
+      grd.addColorStop(0,'rgba(255,220,80,0.85)');
+      grd.addColorStop(0.35,'rgba(230,165,30,0.40)');
+      grd.addColorStop(1,'rgba(200,100,10,0)');
+      ctx.beginPath(); ctx.arc(pos.x,pos.y,28,0,Math.PI*2);
+      ctx.fillStyle=grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(pos.x,pos.y,8,0,Math.PI*2);
+      ctx.fillStyle='#FFCC30'; ctx.fill();
+      ctx.beginPath(); ctx.arc(pos.x,pos.y,3.5,0,Math.PI*2);
+      ctx.fillStyle='#FFFBE8'; ctx.fill();
+    }
+
+    function frame(){
+      requestAnimationFrame(frame);
+      setSize();
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      var ring = getRing();
+      pulseAngle += 0.018;
+      drawRing(ring);
+      drawPulse(pulseAngle, ring);
+    }
+    frame();
+  })();
+  </script>
 </body>
 </html>
