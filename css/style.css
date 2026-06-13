@@ -327,6 +327,7 @@ footer .container {
 .listing-header {
   padding: 3.5rem 0 2.5rem;
   border-bottom: 0.5px solid var(--border);
+  overflow: visible;
 }
 .listing-header h1 {
   font-family: var(--serif);
