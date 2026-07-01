@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Test A</title></head>
+<body style="margin:0;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;">
+<p style="color:#fff;font-family:sans-serif;">Test A — ring animation</p>
+<canvas id="c" width="400" height="280" style="background:#0a0a1a;border-radius:8px;"></canvas>
+<script>
+var c=document.getElementById('c'),ctx=c.getContext('2d'),a=0;
+function f(){requestAnimationFrame(f);ctx.clearRect(0,0,400,280);
+ctx.beginPath();ctx.ellipse(200,160,140,44,0,0,Math.PI*2);ctx.strokeStyle='rgba(215,160,25,0.85)';ctx.lineWidth=3;ctx.stroke();
+var x=200+140*Math.cos(a),y=160+44*Math.sin(a);
+var g=ctx.createRadialGradient(x,y,0,x,y,25);g.addColorStop(0,'rgba(255,220,80,0.9)');g.addColorStop(1,'rgba(255,140,0,0)');
+ctx.beginPath();ctx.arc(x,y,25,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle='#FFD040';ctx.fill();
+a+=0.02;}
+f();
+</script>
+</body></html>
