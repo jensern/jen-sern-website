@@ -3,69 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test A — Ring only</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <title>Test A</title>
 </head>
-<body>
-  <nav><div class="container"><a href="../index.html" class="nav-name">Jen Sern</a></div></nav>
-  <main>
-    <div style="padding:3rem 0;display:flex;align-items:center;justify-content:center;">
-      <canvas id="ringCanvas" width="400" height="280" style="display:block;background:#111;border-radius:8px;"></canvas>
-    </div>
-    <div style="text-align:center;padding:1rem;font-size:14px;color:var(--text-muted);">Test A — ring animation only</div>
-  </main>
+<body style="margin:0;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;">
+  <p style="color:#fff;font-family:sans-serif;margin-bottom:1rem;">Test A — ring animation</p>
+  <canvas id="c" width="400" height="280" style="background:#0a0a1a;border-radius:8px;display:block;"></canvas>
   <script>
-  (function(){
-    var canvas = document.getElementById('ringCanvas');
-    var ctx = canvas.getContext('2d');
-    var RCX=200, RCY=160, RRX=140, RRY=44;
-    var pulseAngle=0;
-    function drawRing(){
-      for(var i=5;i>=1;i--){
-        ctx.beginPath();
-        ctx.ellipse(RCX,RCY,RRX+i*5,RRY+i*2,0,0,Math.PI*2);
-        ctx.strokeStyle='rgba(200,140,20,'+(0.05*(6-i))+')';
-        ctx.lineWidth=8; ctx.stroke();
-      }
-      ctx.beginPath();
-      ctx.ellipse(RCX,RCY,RRX,RRY,0,0,Math.PI*2);
-      ctx.strokeStyle='rgba(215,160,25,0.80)';
-      ctx.lineWidth=3; ctx.stroke();
-      ctx.beginPath();
-      ctx.ellipse(RCX,RCY,RRX-2,RRY-1,0,0,Math.PI*2);
-      ctx.strokeStyle='rgba(255,220,80,0.45)';
-      ctx.lineWidth=1.2; ctx.stroke();
+  var canvas=document.getElementById('c');
+  var ctx=canvas.getContext('2d');
+  var CX=200,CY=160,RX=140,RY=44,angle=0;
+  function ring(){
+    for(var i=5;i>=1;i--){
+      ctx.beginPath();ctx.ellipse(CX,CY,RX+i*5,RY+i*2,0,0,Math.PI*2);
+      ctx.strokeStyle='rgba(200,140,20,'+(0.05*(6-i))+')';ctx.lineWidth=8;ctx.stroke();
     }
-    function getPulse(a){
-      return {x:RCX+RRX*Math.cos(a), y:RCY+RRY*Math.sin(a)};
+    ctx.beginPath();ctx.ellipse(CX,CY,RX,RY,0,0,Math.PI*2);
+    ctx.strokeStyle='rgba(215,160,25,0.85)';ctx.lineWidth=3;ctx.stroke();
+  }
+  function pulse(a){
+    var x=CX+RX*Math.cos(a),y=CY+RY*Math.sin(a);
+    for(var i=30;i>=1;i--){
+      var f=1-i/30,px=CX+RX*Math.cos(a-i*0.04),py=CY+RY*Math.sin(a-i*0.04);
+      ctx.beginPath();ctx.arc(px,py,4*f,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,180,30,'+(f*0.6)+')';ctx.fill();
     }
-    function drawPulse(a){
-      for(var i=36;i>=1;i--){
-        var tp=getPulse(a-i*0.040), f=1-i/36;
-        ctx.beginPath(); ctx.arc(tp.x,tp.y,5*f,0,Math.PI*2);
-        ctx.fillStyle='rgba(255,'+(Math.round(160+55*f))+',30,'+(f*0.55)+')';
-        ctx.fill();
-      }
-      var p=getPulse(a);
-      var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,28);
-      g.addColorStop(0,'rgba(255,220,80,0.85)');
-      g.addColorStop(0.4,'rgba(230,165,30,0.40)');
-      g.addColorStop(1,'rgba(200,100,10,0)');
-      ctx.beginPath(); ctx.arc(p.x,p.y,28,0,Math.PI*2);
-      ctx.fillStyle=g; ctx.fill();
-      ctx.beginPath(); ctx.arc(p.x,p.y,8,0,Math.PI*2);
-      ctx.fillStyle='#FFCC30'; ctx.fill();
-      ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2);
-      ctx.fillStyle='#FFFBE8'; ctx.fill();
-    }
-    function frame(){
-      requestAnimationFrame(frame);
-      ctx.clearRect(0,0,400,280);
-      pulseAngle+=0.018;
-      drawRing(); drawPulse(pulseAngle);
-    }
-    frame();
-  })();
+    var g=ctx.createRadialGradient(x,y,0,x,y,25);
+    g.addColorStop(0,'rgba(255,220,80,0.9)');g.addColorStop(1,'rgba(255,140,0,0)');
+    ctx.beginPath();ctx.arc(x,y,25,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle='#FFD040';ctx.fill();
+  }
+  function frame(){requestAnimationFrame(frame);ctx.clearRect(0,0,400,280);angle+=0.018;ring();pulse(angle);}
+  frame();
   </script>
 </body>
 </html>
